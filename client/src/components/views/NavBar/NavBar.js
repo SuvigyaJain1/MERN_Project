@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-// import LeftMenu from './Sections/LeftMenu';
-// import RightMenu from './Sections/RightMenu';
-// import { Drawer, Button, Icon } from 'antd';
-// import './Sections/Navbar.css';
+import { useSelector, useDispatch } from "react-redux";
+import { withRouter } from 'react-router-dom';
+import { useHistory } from 'react-router';
+import { connect } from 'react-redux';
 
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from '@material-ui/core/Toolbar';
@@ -10,10 +10,15 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import Link from  '@material-ui/core/Link'
 import { makeStyles } from '@material-ui/core/styles';
 
+import axios from 'axios';
+import { USER_SERVER } from '../../Config';
 
-function NavBar() {
+function NavBar(props) {
+
+    let history = useHistory();
     const useStyles = makeStyles((theme) => ({
         root: {
             flexGrow: 1,
@@ -24,10 +29,32 @@ function NavBar() {
         title: {
             flexGrow: 1,
         },
+        button: {
+            color: 'white',
+        },
+
     }));
     const classes = useStyles();
 
-  return (
+    const handleLogin = () => {
+        history.push('/login');
+    }
+
+    const handleSignin = () => {
+        history.push('/register')
+    }
+
+    const handleLogout = () => {
+        axios.get(`${USER_SERVER}/logout`).then(response => {
+            if (response.status === 200) {
+                history.push("/login");
+            } else {
+                alert('Log Out Failed')
+            }
+        });
+    }
+
+    return (
     <div className={classes.root}>
         <AppBar position="static">
             <Toolbar>
@@ -37,11 +64,23 @@ function NavBar() {
                 <Typography variant="h6" className={classes.title}>
                     Home
                 </Typography>
-                <Button color="inherit">Login</Button>
-                <Button color="inherit">Sign Up</Button>
+                <Link to='/register'>CLICK</Link>
+                {!props.loggedIn && <Button className={classes.button} onClick={handleLogin}>Login</Button>}
+                {!props.loggedIn && <Button className={classes.button} onClick={handleSignin}>Sign Up</Button>}
+                {props.loggedIn && <Button className={classes.button} onClick={handleLogout}>Logout</Button>}
+
             </Toolbar>
         </AppBar>
     </div>
-)};
+    )
 
-export default NavBar
+}
+
+const mapStateToProps = (state, ownProps) => {
+    let user = state.user
+
+    return {
+        loggedIn: user.userData && user.userData.isAuth
+    }
+}
+export default connect(mapStateToProps)(NavBar);
