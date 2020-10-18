@@ -15,15 +15,18 @@ import Footer from "./views/Footer/Footer"
 function App() {
   return (
     <Suspense fallback={(<div>Loading...</div>)}>
-      <NavBar />
-      <div style={{ paddingTop: '69px', minHeight: 'calc(100vh - 80px)' }}>
-        <Switch>
-          <Route exact path="/" component={Auth(LandingPage, null)} />
-          <Route exact path="/login" component={Auth(LoginPage, false)} />
-          <Route exact path="/register" component={Auth(RegisterPage, false)} />
-        </Switch>
-      </div>
-      <Footer />
+        <NavBar />
+        <div style={{ paddingTop: '69px', minHeight: 'calc(100vh - 80px)' }}>
+            <Switch>
+                {/* Uncomment when Auth is ready */}
+                <Route exact path="/" component={Auth(LandingPage, null)} />
+                <Route exact path="/login" component={Auth(LoginPage, null)} />
+                <Route exact path="/register" component={Auth(RegisterPage, null)} />
+                {/* <Route exact path="/" component={LandingPage} />
+                    <Route exact path="/login" component={LoginPage} />
+                <Route exact path="/register" component={RegisterPage} /> */}
+            </Switch>
+        </div>
     </Suspense>
   );
 }

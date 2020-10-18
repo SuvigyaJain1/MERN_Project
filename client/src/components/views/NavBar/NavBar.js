@@ -1,53 +1,47 @@
 import React, { useState } from 'react';
-import LeftMenu from './Sections/LeftMenu';
-import RightMenu from './Sections/RightMenu';
-import { Drawer, Button, Icon } from 'antd';
-import './Sections/Navbar.css';
+// import LeftMenu from './Sections/LeftMenu';
+// import RightMenu from './Sections/RightMenu';
+// import { Drawer, Button, Icon } from 'antd';
+// import './Sections/Navbar.css';
+
+import AppBar from "@material-ui/core/AppBar";
+import Toolbar from '@material-ui/core/Toolbar';
+import IconButton from '@material-ui/core/IconButton';
+import MenuIcon from '@material-ui/icons/Menu';
+import Button from '@material-ui/core/Button';
+import Typography from '@material-ui/core/Typography';
+import { makeStyles } from '@material-ui/core/styles';
+
 
 function NavBar() {
-  const [visible, setVisible] = useState(false)
-
-  const showDrawer = () => {
-    setVisible(true)
-  };
-
-  const onClose = () => {
-    setVisible(false)
-  };
+    const useStyles = makeStyles((theme) => ({
+        root: {
+            flexGrow: 1,
+        },
+        menuButton: {
+            marginRight: theme.spacing(2),
+        },
+        title: {
+            flexGrow: 1,
+        },
+    }));
+    const classes = useStyles();
 
   return (
-    <nav className="menu" style={{ position: 'fixed', zIndex: 5, width: '100%' }}>
-      <div className="menu__logo">
-        <a href="/">Logo</a>
-      </div>
-      <div className="menu__container">
-        <div className="menu_left">
-          <LeftMenu mode="horizontal" />
-        </div>
-        <div className="menu_rigth">
-          <RightMenu mode="horizontal" />
-        </div>
-        <Button
-          className="menu__mobile-button"
-          type="primary"
-          onClick={showDrawer}
-        >
-          <Icon type="align-right" />
-        </Button>
-        <Drawer
-          title="Basic Drawer"
-          placement="right"
-          className="menu_drawer"
-          closable={false}
-          onClose={onClose}
-          visible={visible}
-        >
-          <LeftMenu mode="inline" />
-          <RightMenu mode="inline" />
-        </Drawer>
-      </div>
-    </nav>
-  )
-}
+    <div className={classes.root}>
+        <AppBar position="static">
+            <Toolbar>
+                <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
+                    <MenuIcon />
+                </IconButton>
+                <Typography variant="h6" className={classes.title}>
+                    Home
+                </Typography>
+                <Button color="inherit">Login</Button>
+                <Button color="inherit">Sign Up</Button>
+            </Toolbar>
+        </AppBar>
+    </div>
+)};
 
 export default NavBar
