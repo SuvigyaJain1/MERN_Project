@@ -19,7 +19,7 @@ router.get("/auth", auth, (req, res) => {
         role: req.user.role,
         image: req.user.image,
     })
-    .catch((err)=>{
+    ,catch((err)=>{
         console.log(err.message)
     })
 });

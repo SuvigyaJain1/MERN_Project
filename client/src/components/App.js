@@ -18,10 +18,9 @@ function App() {
         <NavBar />
         <div style={{ paddingTop: '69px', minHeight: 'calc(100vh - 80px)' }}>
             <Switch>
-                {/* Uncomment when Auth is ready */}
-                <Route exact path="/" component={Auth(LandingPage, null)} />
-                <Route exact path="/login" component={Auth(LoginPage, null)} />
-                <Route exact path="/register" component={Auth(RegisterPage, null)} />
+                <Route exact path="/" component={Auth(LandingPage, true)} />
+                <Route exact path="/login" component={Auth(LoginPage, false)} />
+                <Route exact path="/register" component={Auth(RegisterPage, false)} />
             </Switch>
         </div>
     </Suspense>
