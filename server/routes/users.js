@@ -18,7 +18,7 @@ router.get("/auth", auth, (req, res) => {
         lastname: req.user.lastname,
         role: req.user.role,
         image: req.user.image,
-    }).catch((err)=>{
+    }).catch((err) => {
         console.log(err.message)
     })
 });
@@ -54,7 +54,7 @@ router.post("/login", (req, res) => {
                     .cookie("w_auth", user.token)
                     .status(200)
                     .json({
-                        loginSuccess: true, userId: user._id
+                        loginSuccess: true, userId: user._id, user: user.token
                     });
             });
         });
