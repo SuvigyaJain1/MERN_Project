@@ -28,9 +28,15 @@ const userSchema = mongoose.Schema({
     },
     tokenExp :{
         type: Number
+    },
+    followers: {
+        type: Array,
+        default: [],
+    },
+    followees : {
+        type: Array,
+        default: [],
     }
-
-    // TODO: Implement followers and followees
 })
 
 
