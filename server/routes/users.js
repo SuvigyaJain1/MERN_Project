@@ -70,4 +70,39 @@ router.get("/logout", auth, (req, res) => {
     });
 });
 
+
+router.post("/addfollower", (req, res) => {
+    User.findOne({ email: req.body.email }, (err, doc) => {
+
+        if (err) return res.status(400).json({err:err.message})
+
+        doc.followers.push(req.body.follower_email);
+        doc.save()
+        .then( () => {
+            return res.status(200).json({
+                success: req.body.follower_email
+            })
+        })
+
+
+    })
+})
+
+router.post("/removefollower", (req, res) => {
+    User.findOne({ email: req.body.email }, (err, doc) => {
+
+        if (err) return res.status(400).json({err:err.message})
+
+        doc.followers.pull(req.body.follower_email);
+        doc.save()
+        .then( () => {
+            return res.status(200).json({
+                success: req.body.follower_email
+            })
+        })
+
+
+    })
+})
+
 module.exports = router;
