@@ -36,6 +36,10 @@ const userSchema = mongoose.Schema({
     followees : {
         type: Array,
         default: [],
+    },
+    groups : {
+        type: Array,
+        default: [],
     }
 })
 

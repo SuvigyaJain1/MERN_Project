@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { User } = require("../models/User");
-
+const { Group } = require("../models/Group");
 const { auth } = require("../middleware/auth");
 
 //=================================
@@ -26,12 +26,37 @@ router.get("/auth", auth, (req, res) => {
 router.post("/register", (req, res) => {
 
     const user = new User(req.body);
-
     user.save((err, doc) => {
         if (err) return res.json({ success: false, err });
-        return res.status(200).json({
-            success: true
+        const home = new Group({
+            name: user.email + '-home',
+            members: [user._id], // add members as followers join
+            createdBy: user._id,
         });
+        const profile = new Group({
+            name: user.email + '-profile',
+            members: [user._id], // don't add members. Only user can post to their profile
+            createdBy: user._id
+        })
+        home.save((err) => {
+            if (err) return res.json({ success: false, err });
+            user.groups.push(home._id)
+            user.save()
+            .then(() => {
+                profile.save(err => {
+                    if (err) return res.json({ success: false, err });
+                    user.groups.push(profile._id)
+                    user.save()
+                    .then(() => {
+                        return res.status(200).json({
+                            success: true
+                        });
+                    })
+                })
+
+            })
+        })
+
     });
 });
 
@@ -76,7 +101,7 @@ router.post("/addfollower", (req, res) => {
 
         if (err) return res.status(400).json({err:err.message})
 
-        doc.followers.push(req.body.follower_email);
+        doc.followers.push(req.body.follower_id);
         doc.save()
         .then( () => {
             return res.status(200).json({
@@ -93,7 +118,7 @@ router.post("/removefollower", (req, res) => {
 
         if (err) return res.status(400).json({err:err.message})
 
-        doc.followers.pull(req.body.follower_email);
+        doc.followers.pull(req.body.follower_id);
         doc.save()
         .then( () => {
             return res.status(200).json({
@@ -105,4 +130,36 @@ router.post("/removefollower", (req, res) => {
     })
 })
 
+
+router.post("/subscribe", (req, res) => {
+    User.findOne({ email: req.body.email }, (err, doc) => {
+
+        if (err) return res.status(400).json({err:err.message})
+
+        doc.groups.push(req.body.group_id);
+        doc.save()
+        .then( () => {
+            return res.status(200).json({
+                success: req.body.group_id
+            })
+        })
+
+    })
+})
+
+router.post("/unsubscribe", (req, res) => {
+    User.findOne({ email: req.body.email }, (err, doc) => {
+
+        if (err) return res.status(400).json({err:err.message})
+
+        doc.groups.pull(req.body.group_id);
+        doc.save()
+        .then( () => {
+            return res.status(200).json({
+                success: req.body.group_id
+            })
+        })
+
+    })
+})
 module.exports = router;
