@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const User = require('./User');
 const { ObjectId } = mongoose.Schema.Types;
 
 
@@ -13,7 +12,11 @@ const groupSchema = mongoose.Schema({
         ref: "User"
     },
     members: [],
-    admins: []
+    admins: [],
+    posts: [{
+        type: ObjectId,
+        ref: "Post"
+    }]//Array of posts referring to posts
 });
 
 const Group = mongoose.model("Group", groupSchema);
