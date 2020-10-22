@@ -3,12 +3,45 @@ import { withRouter } from "react-router-dom";
 import { loginUser } from "../../../_actions/user_actions";
 import { Formik } from 'formik';
 import * as Yup from 'yup';
-import { Form, Icon, Input, Button, Checkbox, Typography } from 'antd';
 import { useDispatch } from "react-redux";
 
-const { Title } = Typography;
+import Button from '@material-ui/core/Button';
+import Card from '@material-ui/core/Card';
+import { makeStyles } from '@material-ui/core/styles';
+import TextField from '@material-ui/core/TextField';
+import Checkbox from '@material-ui/core/Checkbox';
+import Link from '@material-ui/core/Link';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import { useHistory } from 'react-router';
+import Typography from '@material-ui/core/Typography';
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+      marginBottom: theme.spacing(1),
+      width: '25ch',
+      paddingTop: theme.spacing(0.5),
+  },
+  paper: {
+    // display: 'inline-block',
+    // '& > *': {
+      margin: theme.spacing(1),
+      padding: theme.spacing(4),
+      textAlign: 'center',
+      position: 'fixed',
+      top: '50%',
+      left: '50%',
+      transform:'translate(-50%, -50%)',
+    // },
+  },
+  title: {
+    fontSize: '1em',
+  }
+}));
+
 
 function LoginPage(props) {
+  let history = useHistory();
+  const classes = useStyles();
   const dispatch = useDispatch();
   const rememberMeChecked = localStorage.getItem("rememberMe") ? true : false;
 
@@ -20,126 +53,135 @@ function LoginPage(props) {
   };
 
   const initialEmail = localStorage.getItem("rememberMe") ? localStorage.getItem("rememberMe") : '';
-
+  const switchPage = () => {
+    history.push('/register');
+  }
   return (
     <Formik
-        initialValues={{
-            email: initialEmail,
-            password: '',
-        }}
-        validationSchema={Yup.object().shape({
-            email: Yup.string()
-            .email('Email is invalid')
-            .required('Email is required'),
-            password: Yup.string()
-            .min(6, 'Password must be at least 6 characters')
-            .required('Password is required'),
-        })}
-        onSubmit={(values, { setSubmitting }) => {
+      initialValues={{
+        email: initialEmail,
+        password: '',
+      }}
+      validationSchema={Yup.object().shape({
+        email: Yup.string()
+        .email('Email is invalid')
+        .required('Email is required'),
+        password: Yup.string()
+        .min(6, 'Password must be at least 6 characters')
+        .required('Password is required'),
+      })}
+      onSubmit={(values, { setSubmitting }) => {
+        setTimeout(() => {
+          let dataToSubmit = {
+            email: values.email,
+            password: values.password
+          };
+
+          dispatch(loginUser(dataToSubmit))
+          .then(response => {
+            if (response.payload.loginSuccess) {
+              window.localStorage.setItem('userId', response.payload.userId);
+              if (rememberMe === true) {
+                window.localStorage.setItem('rememberMe', values.id);
+              } else {
+                localStorage.removeItem('rememberMe');
+              }
+              props.history.push("/");
+            } else {
+              setFormErrorMessage('Check out your Account or Password again')
+            }
+          })
+          .catch(err => {
+            setFormErrorMessage('Check out your Account or Password again')
             setTimeout(() => {
-                let dataToSubmit = {
-                    email: values.email,
-                    password: values.password
-                };
-
-                dispatch(loginUser(dataToSubmit))
-                .then(response => {
-                    if (response.payload.loginSuccess) {
-                        window.localStorage.setItem('userId', response.payload.userId);
-                        if (rememberMe === true) {
-                            window.localStorage.setItem('rememberMe', values.id);
-                        } else {
-                            localStorage.removeItem('rememberMe');
-                        }
-                        props.history.push("/");
-                    } else {
-                        setFormErrorMessage('Check out your Account or Password again')
-                    }
-                })
-                .catch(err => {
-                    setFormErrorMessage('Check out your Account or Password again')
-                    setTimeout(() => {
-                        setFormErrorMessage("")
-                    }, 3000);
-                });
-                setSubmitting(false);
-            }, 500);
-        }}
+              setFormErrorMessage("")
+            }, 3000);
+          });
+          setSubmitting(false);
+        }, 500);
+      }}
     >
-        {props => {
-            const {
-                values,
-                touched,
-                errors,
-                dirty,
-                isSubmitting,
-                handleChange,
-                handleBlur,
-                handleSubmit,
-                handleReset,
-            } = props;
-            return (
-                <div className="app">
+      {props => {
+        const {
+            values,
+            touched,
+            errors,
+            dirty,
+            isSubmitting,
+            handleChange,
+            handleBlur,
+            handleSubmit,
+            handleReset,
+        } = props;
 
-                    <Title level={2}>Log In</Title>
-                    <form onSubmit={handleSubmit} style={{ width: '350px' }}>
+        return (
+          <Card className={classes.paper}>
+            <div className='title'>
+              <Typography variant='overline' color='secondary' className={classes.title}>Log in</Typography>
+            </div>
+            {/* <Title level={2}>Log In</Title> */}
+            <form onSubmit={handleSubmit}>
 
-                        <Form.Item required>
-                            <Input
-                                id="email"
-                                prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                                placeholder="Enter your email"
-                                type="email"
-                                value={values.email}
-                                onChange={handleChange}
-                                onBlur={handleBlur}
-                                className={
-                                    errors.email && touched.email ? 'text-input error' : 'text-input'
-                                }
-                            />
-                            {errors.email && touched.email && (
-                                <div className="input-feedback">{errors.email}</div>
-                            )}
-                        </Form.Item>
+              <div className={classes.root}>
+                <TextField
+                  className={classes.root}
+                  variant='outlined'
+                  id="email"
+                  placeholder="Enter your email"
+                  type="email"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  label="Email"
+                  className={
+                    errors.email && touched.email ? 'text-input error' : 'text-input'
+                  }
 
-                        <Form.Item required>
-                            <Input
-                                id="password"
-                                prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                                placeholder="Enter your password"
-                                type="password"
-                                value={values.password}
-                                onChange={handleChange}
-                                onBlur={handleBlur}
-                                className={
-                                    errors.password && touched.password ? 'text-input error' : 'text-input'
-                                }
-                            />
-                            {errors.password && touched.password && (
-                                <div className="input-feedback">{errors.password}</div>
-                            )}
-                        </Form.Item>
+                  helperText={errors.email && touched.email && (
+                    <div className="input-feedback">{errors.email}</div>
+                  )}
 
-                        {formErrorMessage && (
-                            <label ><p style={{ color: '#ff0000bf', fontSize: '0.7rem', border: '1px solid', padding: '1rem', borderRadius: '10px' }}>{formErrorMessage}</p></label>
-                        )}
+                />
+              </div>
+              <div className={classes.root}>
+                <TextField
+                  className={classes.root}
+                  variant='outlined'
+                  id="password"
+                  placeholder="Enter your password"
+                  type="password"
+                  value={values.password}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  label="Password"
+                  className={
+                    errors.password && touched.password ? 'text-input error' : 'text-input'
+                  }
+                  helperText={errors.password && touched.password && (
+                    <div className="input-feedback">{errors.password}</div>
+                  )}
+                />
+              </div>
+              {/* {formErrorMessage && (
+                <label ><p style={{ color: '#ff0000bf', fontSize: '0.7rem', border: '1px solid', padding: '1rem', borderRadius: '10px' }}>{formErrorMessage}</p></label>
+                )}
+              */}
+              <FormControlLabel control={<Checkbox id="rememberMe" onChange={handleRememberMe} checked={rememberMe}/>} label="Remember Me" />
 
-                        <Form.Item>
-                            <Checkbox id="rememberMe" onChange={handleRememberMe} checked={rememberMe} >Remember me</Checkbox>
-                            <a className="login-form-forgot" href="/reset_user" style={{ float: 'right' }}>
-                                forgot password
-                            </a>
-                            <div>
-                                <Button type="primary" htmlType="submit" className="login-form-button" style={{ minWidth: '100%' }} disabled={isSubmitting} onSubmit={handleSubmit}>
-                                    Log in
-                                </Button>
-                            </div>
-                            Or <a href="/register">register now!</a>
-                        </Form.Item>
-                    </form>
-                </div>
-            );
-        }}
+              {/* <a className="login-form-forgot" href="/reset_user" style={{ float: 'right' }}>
+                  forgot password
+              </a> */}
+              <div className={classes.root}>
+                <Button type='submit' variant='contained' color='secondary' className="login-form-button" disabled={isSubmitting} onSubmit={handleSubmit}>
+                  Log in
+                </Button>
+              </div>
+              <div className={classes.root}>
+                Or <Link to="/register" onClick={switchPage}>register now!</Link>
+              </div>
+              </form>
+          </Card>
+        );
+      }}
     </Formik>
   );
 };

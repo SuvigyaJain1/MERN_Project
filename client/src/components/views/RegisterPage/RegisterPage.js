@@ -4,38 +4,43 @@ import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { registerUser } from "../../../_actions/user_actions";
 import { useDispatch } from "react-redux";
+import { useHistory } from 'react-router';
 
-import {
-  Form,
-  Input,
-  Button,
-} from 'antd';
+import Button from '@material-ui/core/Button';
+import Paper from '@material-ui/core/Paper';
+import { makeStyles } from '@material-ui/core/styles';
+import TextField from '@material-ui/core/TextField';
+import Typography from '@material-ui/core/Typography';
 
-const formItemLayout = {
-  labelCol: {
-    xs: { span: 24 },
-    sm: { span: 8 },
+const useStyles = makeStyles((theme) => ({
+  root: {
+      marginBottom: theme.spacing(1),
+      width: '25ch',
+      paddingTop: theme.spacing(0.5),
   },
-  wrapperCol: {
-    xs: { span: 24 },
-    sm: { span: 16 },
+  paper: {
+    // display: 'inline-block',
+    // '& > *': {
+      margin: theme.spacing(1),
+      padding: theme.spacing(4),
+      textAlign: 'center',
+      position: 'fixed',
+      top: '50%',
+      left: '50%',
+      transform:'translate(-50%, -50%)',
+    // },
+    title: {
+      fontSize: '1.5em',
+    }
   },
-};
-const tailFormItemLayout = {
-  wrapperCol: {
-    xs: {
-      span: 24,
-      offset: 0,
-    },
-    sm: {
-      span: 16,
-      offset: 8,
-    },
-  },
-};
+}));
+
+
 
 function RegisterPage(props) {
+  let history = useHistory();
   const dispatch = useDispatch();
+  const classes = useStyles();
   return (
 
     <Formik
@@ -48,18 +53,18 @@ function RegisterPage(props) {
       }}
       validationSchema={Yup.object().shape({
         name: Yup.string()
-          .required('Name is required'),
+        .required('Name is required'),
         lastName: Yup.string()
-          .required('Last Name is required'),
+        .required('Last Name is required'),
         email: Yup.string()
-          .email('Email is invalid')
-          .required('Email is required'),
+        .email('Email is invalid')
+        .required('Email is required'),
         password: Yup.string()
-          .min(6, 'Password must be at least 6 characters')
-          .required('Password is required'),
+        .min(6, 'Password must be at least 6 characters')
+        .required('Password is required'),
         confirmPassword: Yup.string()
-          .oneOf([Yup.ref('password'), null], 'Passwords must match')
-          .required('Confirm Password is required')
+        .oneOf([Yup.ref('password'), null], 'Passwords must match')
+        .required('Confirm Password is required')
       })}
       onSubmit={(values, { setSubmitting }) => {
         setTimeout(() => {
@@ -68,15 +73,23 @@ function RegisterPage(props) {
             email: values.email,
             password: values.password,
             name: values.name,
-            lastname: values.lastname,
+            lastname: values.lastName,
             image: `http://gravatar.com/avatar/${moment().unix()}?d=identicon`
           };
 
+          // dispatch(registerUser(dataToSubmit)).then(response => {
+          //   if (response.payload.success) {
+          //     props.history.push("/login");
+          //   } else {
+          //     alert(response.payload.err.errmsg)
+          //   }
+          // })
+
           dispatch(registerUser(dataToSubmit)).then(response => {
             if (response.payload.success) {
-              props.history.push("/login");
+              history.push("/login");
             } else {
-              alert(response.payload.err.errmsg)
+              alert("Sign-Up Failed. Email might already be in use")
             }
           })
 
@@ -97,13 +110,16 @@ function RegisterPage(props) {
           handleReset,
         } = props;
         return (
-          <div className="app">
-            <h2>Sign up</h2>
-            <Form style={{ minWidth: '375px' }} {...formItemLayout} onSubmit={handleSubmit} >
+          <Paper className={classes.paper}>
+            <div className='title'>
+              <Typography variant='overline' color='secondary' className={classes.title}>Sign up</Typography>
+            </div>
+            <form onSubmit={handleSubmit} noValidate autoComplete="off">
 
-              <Form.Item required label="Name">
-                <Input
+              <div className = {classes.root} >
+                <TextField required
                   id="name"
+                  label="Name"
                   placeholder="Enter your name"
                   type="text"
                   value={values.name}
@@ -112,14 +128,14 @@ function RegisterPage(props) {
                   className={
                     errors.name && touched.name ? 'text-input error' : 'text-input'
                   }
+                  helperText={errors.name && touched.name && (
+                    <div className="input-feedback">{errors.name}</div>
+                  )}
                 />
-                {errors.name && touched.name && (
-                  <div className="input-feedback">{errors.name}</div>
-                )}
-              </Form.Item>
-
-              <Form.Item required label="Last Name">
-                <Input
+              </div>
+              <div className = {classes.root} >
+                <TextField required
+                  label="Last Name"
                   id="lastName"
                   placeholder="Enter your Last Name"
                   type="text"
@@ -130,13 +146,10 @@ function RegisterPage(props) {
                     errors.lastName && touched.lastName ? 'text-input error' : 'text-input'
                   }
                 />
-                {errors.lastName && touched.lastName && (
-                  <div className="input-feedback">{errors.lastName}</div>
-                )}
-              </Form.Item>
-
-              <Form.Item required label="Email" hasFeedback validateStatus={errors.email && touched.email ? "error" : 'success'}>
-                <Input
+              </div>
+              <div className = {classes.root} >
+                <TextField required
+                  label="Email"
                   id="email"
                   placeholder="Enter your Email"
                   type="email"
@@ -146,14 +159,15 @@ function RegisterPage(props) {
                   className={
                     errors.email && touched.email ? 'text-input error' : 'text-input'
                   }
+                  helperText={errors.email && touched.email && (
+                    <div className="input-feedback">{errors.email}</div>
+                  )}
                 />
-                {errors.email && touched.email && (
-                  <div className="input-feedback">{errors.email}</div>
-                )}
-              </Form.Item>
+              </div>
 
-              <Form.Item required label="Password" hasFeedback validateStatus={errors.password && touched.password ? "error" : 'success'}>
-                <Input
+              <div className = {classes.root} >
+                <TextField required
+                  label="Password"
                   id="password"
                   placeholder="Enter your password"
                   type="password"
@@ -163,16 +177,16 @@ function RegisterPage(props) {
                   className={
                     errors.password && touched.password ? 'text-input error' : 'text-input'
                   }
-                />
-                {errors.password && touched.password && (
-                  <div className="input-feedback">{errors.password}</div>
-                )}
-              </Form.Item>
+                  helperText={errors.password && touched.password && (
+                    <div className="input-feedback">{errors.password}</div>
+                  )} />
+              </div>
 
-              <Form.Item required label="Confirm" hasFeedback>
-                <Input
+              <div className = {classes.root} >
+                <TextField required
+                  label="Confirm Password"
                   id="confirmPassword"
-                  placeholder="Enter your confirmPassword"
+                  placeholder="Enter your password again"
                   type="password"
                   value={values.confirmPassword}
                   onChange={handleChange}
@@ -180,19 +194,18 @@ function RegisterPage(props) {
                   className={
                     errors.confirmPassword && touched.confirmPassword ? 'text-input error' : 'text-input'
                   }
-                />
-                {errors.confirmPassword && touched.confirmPassword && (
-                  <div className="input-feedback">{errors.confirmPassword}</div>
-                )}
-              </Form.Item>
+                  helperText={errors.confirmPassword && touched.confirmPassword && (
+                    <div className="input-feedback">{errors.confirmPassword}</div>
+                  )} />
+              </div>
 
-              <Form.Item {...tailFormItemLayout}>
-                <Button onClick={handleSubmit} type="primary" disabled={isSubmitting}>
+              <div className = {classes.root} >
+                <Button onClick={handleSubmit} color="primary" type='submit' variant='contained' disabled={isSubmitting}>
                   Submit
                 </Button>
-              </Form.Item>
-            </Form>
-          </div>
+              </div>
+            </form>
+          </Paper>
         );
       }}
     </Formik>

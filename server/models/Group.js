@@ -6,7 +6,7 @@ const { ObjectId } = mongoose.Schema.Types;
 const groupSchema = mongoose.Schema({
     name: {
         type: String,
-        maxlength: 25
+        maxlength: 100
     },
     createdBy: {
         type: ObjectId,
