@@ -10,13 +10,11 @@ import { USER_SERVER } from '../components/Config.js';
 export function registerUser(dataToSubmit){
     const request = axios.post(`${USER_SERVER}/register`,dataToSubmit)
         .then(response => response.data);
-    
     return {
         type: REGISTER_USER,
-        payload: request
+        payload: request,
     }
 }
-
 export function loginUser(dataToSubmit){
     const request = axios.post(`${USER_SERVER}/login`,dataToSubmit)
                 .then(response => response.data);
@@ -46,4 +44,3 @@ export function logoutUser(){
         payload: request
     }
 }
-
