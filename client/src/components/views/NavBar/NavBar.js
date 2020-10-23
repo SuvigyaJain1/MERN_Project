@@ -10,7 +10,7 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import Link from  '@material-ui/core/Link'
+import Link from '@material-ui/core/Link'
 import { makeStyles } from '@material-ui/core/styles';
 
 import axios from 'axios';
@@ -55,24 +55,23 @@ function NavBar(props) {
     }
 
     return (
-    <div className={classes.root}>
-      <AppBar position="fixed" style={{
-        backgroundColor:'#c9352e'
-      }}>
-        <Toolbar>
-          <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" className={classes.title}>
-            Home
+        <div className={classes.root}>
+            <AppBar position="fixed" style={{
+                backgroundColor: '#c9352e'
+            }}>
+                <Toolbar>
+                    <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
+                        <MenuIcon />
+                    </IconButton>
+                    <Typography variant="h6" className={classes.title}>
+                        Home
           </Typography>
-          {!props.loggedIn && <Button className={classes.button} onClick={handleLogin}>Login</Button>}
-                {!props.loggedIn && <Button className={classes.button} onClick={handleSignin}>Sign Up</Button>}
-                {props.loggedIn && <Button className={classes.button} onClick={handleLogout}>Logout</Button>}
-
-            </Toolbar>
-        </AppBar>
-    </div>
+                    {!props.loggedIn && <Button className={classes.button} onClick={handleLogin}>Login</Button>}
+                    {!props.loggedIn && <Button className={classes.button} onClick={handleSignin}>Sign Up</Button>}
+                    {props.loggedIn && <Button className={classes.button} onClick={handleLogout}>Logout</Button>}
+                </Toolbar>
+            </AppBar>
+        </div>
     )
 
 }
