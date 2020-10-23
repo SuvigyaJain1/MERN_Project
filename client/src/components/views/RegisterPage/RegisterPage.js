@@ -11,6 +11,7 @@ import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
+import bg from './bg.png'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -110,107 +111,119 @@ function RegisterPage(props) {
           handleReset,
         } = props;
         return (
-          <Paper className={classes.paper}>
-            <div className='title'>
-              <Typography variant='overline' color='secondary' className={classes.title}>Sign up</Typography>
-            </div>
-            <form onSubmit={handleSubmit} noValidate autoComplete="off">
+          <div>
+            <div style={{
 
-              <div className = {classes.root} >
-                <TextField required
-                  id="name"
-                  label="Name"
-                  placeholder="Enter your name"
-                  type="text"
-                  value={values.name}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  className={
-                    errors.name && touched.name ? 'text-input error' : 'text-input'
-                  }
-                  helperText={errors.name && touched.name && (
-                    <div className="input-feedback">{errors.name}</div>
-                  )}
-                />
+              backgroundImage: "url(" + bg + ")",
+              backgroundPosition: 'center',
+              backgroundSize: 'cover',
+              backgroundRepeat: 'no-repeat',
+              margin: '0px',
+              minHeight: 'calc(100vh - 20px)',
+              backgroundAttachment:'fixed'
+            }}/>
+            <Paper className={classes.paper}>
+              <div className='title'>
+                <Typography variant='overline' color='secondary' className={classes.title}>Sign up</Typography>
               </div>
-              <div className = {classes.root} >
-                <TextField required
-                  label="Last Name"
-                  id="lastName"
-                  placeholder="Enter your Last Name"
-                  type="text"
-                  value={values.lastName}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  className={
-                    errors.lastName && touched.lastName ? 'text-input error' : 'text-input'
-                  }
-                />
-              </div>
-              <div className = {classes.root} >
-                <TextField required
-                  label="Email"
-                  id="email"
-                  placeholder="Enter your Email"
-                  type="email"
-                  value={values.email}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  className={
-                    errors.email && touched.email ? 'text-input error' : 'text-input'
-                  }
-                  helperText={errors.email && touched.email && (
-                    <div className="input-feedback">{errors.email}</div>
-                  )}
-                />
-              </div>
+              <form onSubmit={handleSubmit} noValidate autoComplete="off">
 
-              <div className = {classes.root} >
-                <TextField required
-                  label="Password"
-                  id="password"
-                  placeholder="Enter your password"
-                  type="password"
-                  value={values.password}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  className={
-                    errors.password && touched.password ? 'text-input error' : 'text-input'
-                  }
-                  helperText={errors.password && touched.password && (
-                    <div className="input-feedback">{errors.password}</div>
-                  )} />
-              </div>
+                <div className = {classes.root} >
+                  <TextField required
+                    id="name"
+                    label="Name"
+                    placeholder="Enter your name"
+                    type="text"
+                    value={values.name}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    className={
+                      errors.name && touched.name ? 'text-input error' : 'text-input'
+                    }
+                    helperText={errors.name && touched.name && (
+                      <div className="input-feedback">{errors.name}</div>
+                    )}
+                  />
+                </div>
+                <div className = {classes.root} >
+                  <TextField required
+                    label="Last Name"
+                    id="lastName"
+                    placeholder="Enter your Last Name"
+                    type="text"
+                    value={values.lastName}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    className={
+                      errors.lastName && touched.lastName ? 'text-input error' : 'text-input'
+                    }
+                  />
+                </div>
+                <div className = {classes.root} >
+                  <TextField required
+                    label="Email"
+                    id="email"
+                    placeholder="Enter your Email"
+                    type="email"
+                    value={values.email}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    className={
+                      errors.email && touched.email ? 'text-input error' : 'text-input'
+                    }
+                    helperText={errors.email && touched.email && (
+                      <div className="input-feedback">{errors.email}</div>
+                    )}
+                  />
+                </div>
 
-              <div className = {classes.root} >
-                <TextField required
-                  label="Confirm Password"
-                  id="confirmPassword"
-                  placeholder="Enter your password again"
-                  type="password"
-                  value={values.confirmPassword}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  className={
-                    errors.confirmPassword && touched.confirmPassword ? 'text-input error' : 'text-input'
-                  }
-                  helperText={errors.confirmPassword && touched.confirmPassword && (
-                    <div className="input-feedback">{errors.confirmPassword}</div>
-                  )} />
-              </div>
+                <div className = {classes.root} >
+                  <TextField required
+                    label="Password"
+                    id="password"
+                    placeholder="Enter your password"
+                    type="password"
+                    value={values.password}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    className={
+                      errors.password && touched.password ? 'text-input error' : 'text-input'
+                    }
+                    helperText={errors.password && touched.password && (
+                      <div className="input-feedback">{errors.password}</div>
+                    )} />
+                </div>
 
-              <div className = {classes.root} >
-                <Button onClick={handleSubmit} color="primary" type='submit' variant='contained' disabled={isSubmitting}>
-                  Submit
-                </Button>
-              </div>
-            </form>
-          </Paper>
+                <div className = {classes.root} >
+                  <TextField required
+                    label="Confirm Password"
+                    id="confirmPassword"
+                    placeholder="Enter your password again"
+                    type="password"
+                    value={values.confirmPassword}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    className={
+                      errors.confirmPassword && touched.confirmPassword ? 'text-input error' : 'text-input'
+                    }
+                    helperText={errors.confirmPassword && touched.confirmPassword && (
+                      <div className="input-feedback">{errors.confirmPassword}</div>
+                    )} />
+                </div>
+
+                <div className = {classes.root} >
+                  <Button onClick={handleSubmit} color="primary" type='submit' variant='contained' disabled={isSubmitting}>
+                    Submit
+                  </Button>
+                </div>
+              </form>
+            </Paper>
+          </div>
+            );
+            }}
+          </Formik>
         );
-      }}
-    </Formik>
-  );
-};
+      };
 
 
-export default RegisterPage
+        export default RegisterPage

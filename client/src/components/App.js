@@ -15,8 +15,8 @@ import Footer from "./views/Footer/Footer"
 function App() {
   return (
     <Suspense fallback={(<div>Loading...</div>)}>
-        <NavBar />
-        <div style={{ paddingTop: '69px', minHeight: 'calc(100vh - 80px)' }}>
+      <NavBar />
+      <div style={{ padding: '0px', minHeight: 'calc(100vh - 80px)', overflow:'hidden'}}>
             <Switch>
                 <Route exact path="/" component={Auth(LandingPage, true)} />
                 <Route exact path="/login" component={Auth(LoginPage, false)} />
