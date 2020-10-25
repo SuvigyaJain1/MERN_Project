@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { FaCode } from "react-icons/fa";
-import PostCard from './PostCard';
+import PostCard from '../PostCard';
 
 
 
