@@ -112,12 +112,10 @@ function LoginPage(props) {
             values,
             touched,
             errors,
-            dirty,
             isSubmitting,
             handleChange,
             handleBlur,
             handleSubmit,
-            handleReset,
           } = props;
 
           return (
@@ -178,10 +176,7 @@ function LoginPage(props) {
                       )}
                     />
                   </div>
-                  {/* {formErrorMessage && (
-                    <label ><p style={{ color: '#ff0000bf', fontSize: '0.7rem', border: '1px solid', padding: '1rem', borderRadius: '10px' }}>{formErrorMessage}</p></label>
-                    )}
-                  */}
+
                   <FormControlLabel control={<Checkbox id="rememberMe" onChange={handleRememberMe} checked={rememberMe}/>} label="Remember Me" />
 
                   {/* <a className="login-form-forgot" href="/reset_user" style={{ float: 'right' }}>

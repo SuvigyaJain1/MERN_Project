@@ -1,12 +1,14 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import Typography from '@material-ui/core/Typography';
+import Card from '@material-ui/core/Card';
 
 const postStyle = {
-    width: "18rem",
-    backgroundColor: "#c9352e",
-    color: "white",
+    minWidth: "50%",
+    width: "80%",
+    // backgroundColor: "#F4D9D8",
+    color: "#100118",
     padding: "25px",
-    fontSize: "20px",
     margin: "10px",
     display: "inline-block"
 }
@@ -14,15 +16,15 @@ const postStyle = {
 function PostCard(props) {
     return (
         <Link to="/grouproute">
-            <div class="card" style={postStyle} >
-                <div class="card-body">
-                    <h4 class="card-title">{props.post.caption}</h4>
-                    <h5 class="card-title">{props.post.author}</h5>
-                    <p class="card-text">{props.post.content.substring(0, 120) + "..."}</p>
+          <Card className="card" style={postStyle} >
+            <div class="card-body">
+              <h4 class="card-title">{props.post.caption}</h4>
+              <h5 class="card-author">{props.post.author}</h5>
+              <p class="card-text">{props.post.content}</p>
 
-                </div>
-            </div >
-        </Link>
+            </div>
+            </Card >
+          </Link>
     )
 }
 

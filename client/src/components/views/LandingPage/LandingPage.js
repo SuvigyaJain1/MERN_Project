@@ -1,39 +1,95 @@
-import React, { useState } from 'react'
-import { FaCode } from "react-icons/fa";
-import PostCard from '../PostCard';
+import React, { useState, useEffect } from 'react'
+import Posts from '../Posts';
+import axios from 'axios';
+import { useDispatch } from "react-redux";
+import { connect } from 'react-redux';
+import Fab from '@material-ui/core/Fab';
+import EditIcon from '@material-ui/icons/Edit';
+import { makeStyles } from '@material-ui/core/styles';
+import NewPost from './NewPost';
+import Accordion from '@material-ui/core/Accordion';
+import AccordionSummary from '@material-ui/core/AccordionSummary';
+import AccordionDetails from '@material-ui/core/AccordionDetails';
+// import { getPostContent } from "../../../_actions/post_actions";
 
+const useStyles = makeStyles((theme) => ({
+  edit: {
+    position: 'fixed',
+    right: '2em',
+    bottom: '5em',
+    zIndex: '4',
 
+  },
+  acc: {
+    position: 'fixed',
+    margin: '20px',
+  },
+  newpost: {
+    'position': 'absolute',
+    'padding': '10px',
+    'margin': '10px',
+    minHeight: '30%',
+    minWidth: '60%',
+    zIndex:'4',
+  },
+  overlay:{
+    position:'fixed',
+    margin:'0px',
+    backgroundColor: 'rgba(245, 245, 245, 0.77)',
+    height:'100%',
+    'width': '100%',
+    'zIndex':'3',
+    left:'0px',
+    top:'0px',
+  }
+}))
 
-function LandingPage() {
-
-    const [post, setPost] = useState({
-        author: "Example Author",
-        caption: "First Post",
-        content: "Example Post Content - Lorem ipsum dolor sit amet, consectetur adipiscing elit. In at nisl sagittis erat consectetur vestibulum. Curabitur et suscipit erat. Aenean eget commodo arcu. Mauris ullamcorper ut felis a luctus. Cras eget fringilla neque, at dictum felis. Nam luctus eget orci id porta. Phasellus gravida sed nunc ut venenatis. Maecenas fermentum auctor ultrices."
+function LandingPage(props) {
+    const styles = useStyles()
+    const dispatch = useDispatch();
+    const [state, setState] = useState({
+      posts:[
+        {
+          "author": 'loading..',
+          "caption": 'loading..',
+          "content": "loading.."
+        },
+      ],
+      showcreate:false,
+      showoverlay:false,
     });
 
+
+
+    useEffect( () => {
+      const dataToSubmit = {group: 'home'}
+      axios.post('/api/posts/getposts', dataToSubmit)
+        .then( res => {
+        setState({...state, posts:res.data});
+      })
+      .catch(err => console.error(err.message))
+    }, [])
+
+
+    const handleFabClick = () => {
+      setState({...state,
+        showcreate : !state.showcreate,
+        showoverlay: !state.showoverlay,
+      })
+    }
     return (
-        <div className="app" style={{ margin: "100px" }}>
-            <PostCard post={post} />
-            <PostCard post={post} />
-            <PostCard post={post} />
-            <PostCard post={post} />
-            <PostCard post={post} />
-            <PostCard post={post} />
-            <PostCard post={post} />
-            <PostCard post={post} />
-            <PostCard post={post} />
-            <PostCard post={post} />
-            <PostCard post={post} />
-            <PostCard post={post} />
-            <PostCard post={post} />
-            <PostCard post={post} />
-            <PostCard post={post} />
-            <PostCard post={post} />
-            <PostCard post={post} />
-            <PostCard post={post} />
-        </div>
+
+      <div className="app" style={{ margin: "40px" }}>
+        {state.showoverlay && <div className={styles.overlay} />}
+        <Fab color="primary" aria-label="add" className={styles.edit} onClick={handleFabClick}>
+          <EditIcon />
+        </Fab>
+        {state.showcreate && <NewPost className={styles.newpost}/>}
+        {
+          <Posts posts={ state.posts } />
+        }
+      </div>
     )
 }
 
-export default LandingPage
+export default LandingPage;
