@@ -1,6 +1,4 @@
-import React, { useState } from 'react';
-import { useSelector, useDispatch } from "react-redux";
-import { withRouter } from 'react-router-dom';
+import React from 'react';
 import { useHistory } from 'react-router';
 import { connect } from 'react-redux';
 
@@ -10,7 +8,6 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import Link from '@material-ui/core/Link'
 import { makeStyles } from '@material-ui/core/styles';
 
 import axios from 'axios';
