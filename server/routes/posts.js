@@ -27,7 +27,7 @@ router.post("/createpost", auth, (req, res) => {
             console.log(err);
         } else {
             Group.findOne({
-              name:req.body.group})
+              name:req.user.email+'-home'})
             .then(doc=>{
               doc.posts.push(newPost._id)
               doc.save()
