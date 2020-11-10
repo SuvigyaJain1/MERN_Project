@@ -3,19 +3,20 @@ import React from 'react';
 
 function SearchResult(props) {
 
-
+    console.log(props)
 
     return (
         <div style={{
             height: "50px",
             width: "400px",
-            backgroundColor: "white",
-            color: "black",
+            backgroundColor: "#931a25",
+            color: "white",
+            verticalAlign: "center",
             margin: "100px auto",
-            textAlign: "left",
-            fontSize: "30px"
+            fontSize: "30px",
+            padding: "10px"
         }}>
-            {props.email}
+            {props.user.name + " " + props.user.lastname}
         </div>
     )
 }

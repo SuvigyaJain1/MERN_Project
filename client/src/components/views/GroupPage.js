@@ -38,7 +38,7 @@ export default function GroupPage() {
         handleChange();
       }}>Search</button>
       <div>
-        {succ ? found.map(e => <SearchResult email={e.email} />) : ""}
+        {succ ? found.map(e => <SearchResult user={e} />) : ""}
       </div>
       <div hidden={!error}>
         <h3>User not found</h3>
