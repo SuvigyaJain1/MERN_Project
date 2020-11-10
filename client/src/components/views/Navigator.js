@@ -14,9 +14,9 @@ import GroupIcon from '@material-ui/icons/Group';
 const useStyles = makeStyles({
   root: {
     width: '100%',
-    position:'fixed',
-    bottom:'0px',
-    color:'#fff',
+    position: 'fixed',
+    bottom: '0px',
+    color: '#fff',
     backgroundColor: '#253245'
   },
 });
@@ -37,22 +37,22 @@ export default function Navigator() {
     >
       <BottomNavigationAction
         label="Home"
-        icon={<HomeIcon  style={{color:'white'}}/>}
-        onClick={()=>{history.push('./home')}}
+        icon={<HomeIcon style={{ color: 'white' }} />}
+        onClick={() => { history.push('./home') }}
         value="home"
-        style={{color:'white'}}/>
+        style={{ color: 'white' }} />
       <BottomNavigationAction
-        label="Groups"
-        icon={<GroupIcon  style={{color:'white'}}/>}
-        style={{color:'white'}}
+        label="Explore"
+        icon={<GroupIcon style={{ color: 'white' }} />}
+        style={{ color: 'white' }}
         value="groups"
-        onClick={()=>{history.push('./groups')}}/>
+        onClick={() => { history.push('./groups') }} />
       <BottomNavigationAction
         label="Profile"
-        icon={<PersonIcon style={{color:'white'}}/>}
-        style={{color:'white'}}
+        icon={<PersonIcon style={{ color: 'white' }} />}
+        style={{ color: 'white' }}
         value="profile"
-        onClick={()=>{history.push('./profile')}}/>
+        onClick={() => { history.push('./profile') }} />
     </BottomNavigation>
   );
 }

@@ -17,17 +17,17 @@ function App() {
   return (
     <Suspense fallback={(<div>Loading...</div>)}>
       <NavBar />
-      <div style={{ padding: '0px', minHeight: 'calc(100vh - 80px)', overflow:'hidden'}}>
+      <div style={{ padding: '0px', minHeight: 'calc(100vh - 80px)', overflow: 'hidden' }}>
         <Switch>
           <Route exact path="/" component={Auth(LoginPage, false)} />
           <Route exact path="/home" component={Auth(LandingPage, true)} />
           <Route exact path="/login" component={Auth(LoginPage, false)} />
           <Route exact path="/register" component={Auth(RegisterPage, false)} />
-          <Route path = '/groups' component={Auth(GroupPage, true)} />
-          <Route exact path='/profile' component = {Auth(ProfilePage, true)} />
+          <Route exact path='/groups' component={Auth(GroupPage, true)} />
+          <Route exact path='/profile' component={Auth(ProfilePage, true)} />
         </Switch>
       </div>
-      <Navigator/>
+      <Navigator />
     </Suspense>
   );
 }

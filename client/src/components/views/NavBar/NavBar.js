@@ -54,7 +54,8 @@ function NavBar(props) {
     return (
         <div className={classes.root}>
             <AppBar position="fixed" style={{
-                backgroundColor: '#c9352e'
+                backgroundColor: '#c9352e',
+                marginBottom: "20px"
             }}>
                 <Toolbar>
                     <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
