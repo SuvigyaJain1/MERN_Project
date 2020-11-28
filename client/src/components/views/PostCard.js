@@ -15,7 +15,7 @@ const postStyle = {
 
 function PostCard(props) {
     return (
-        <Link to="/grouproute">
+        <Link to="/posts/" + props.post._id>
           <Card className="card" style={postStyle} >
             <div class="card-body">
               <h4 class="card-title">{props.post.caption}</h4>
