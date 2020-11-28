@@ -4,13 +4,13 @@ import Typography from '@material-ui/core/Typography';
 import Card from '@material-ui/core/Card';
 
 const postStyle = {
-    minWidth: "50%",
-    width: "80%",
-    // backgroundColor: "#F4D9D8",
-    color: "#100118",
-    padding: "25px",
-    margin: "10px",
-    display: "inline-block"
+  minWidth: "50%",
+  width: "80%",
+  // backgroundColor: "#F4D9D8",
+  color: "#100118",
+  padding: "25px",
+  margin: "10px",
+  display: "inline-block"
 }
 
 function PostCard(props) {
