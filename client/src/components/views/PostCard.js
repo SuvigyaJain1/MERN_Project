@@ -14,17 +14,18 @@ const postStyle = {
 }
 
 function PostCard(props) {
-  return (
-    <Link to="/grouproute">
-      <Card className="card" style={postStyle} >
-        <div class="card-body">
-          <h4 class="card-title">{props.post.caption}</h4>
-          <h5 class="card-author">{props.post.author}</h5>
-          <p class="card-text">{props.post.content}</p>
-        </div>
-      </Card >
-    </Link>
-  )
+    return (
+        <Link to={"/posts/" + props.post._id}>
+          <Card className="card" style={postStyle} >
+            <div class="card-body">
+              <h4 class="card-title">{props.post.caption}</h4>
+              <h5 class="card-author">{props.post.author}</h5>
+              <p class="card-text">{props.post.content}</p>
+
+            </div>
+            </Card >
+          </Link>
+    )
 }
 
 export default PostCard;
