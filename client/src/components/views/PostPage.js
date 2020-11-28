@@ -1,9 +1,9 @@
 import React from 'react'
 
-export default function GroupPage() {
+export default function PostPage() {
   return (
     <div>
-      "Group Page"
+      "Post Page"
     </div>
   );
 }

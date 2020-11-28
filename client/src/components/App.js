@@ -7,8 +7,9 @@ import LoginPage from "./views/LoginPage/LoginPage.js";
 import RegisterPage from "./views/RegisterPage/RegisterPage.js";
 import NavBar from "./views/NavBar/NavBar";
 import Navigator from './views/Navigator';
-import GroupPage from './views/GroupPage';
+import PostPage from './views/PostPage';
 import ProfilePage from './views/ProfilePage';
+
 //null   Anyone Can go inside
 //true   only logged in user can go inside
 //false  logged in user can't go inside
