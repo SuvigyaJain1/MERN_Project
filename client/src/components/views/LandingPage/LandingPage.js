@@ -7,9 +7,7 @@ import Fab from '@material-ui/core/Fab';
 import EditIcon from '@material-ui/icons/Edit';
 import { makeStyles } from '@material-ui/core/styles';
 import NewPost from './NewPost';
-import Accordion from '@material-ui/core/Accordion';
-import AccordionSummary from '@material-ui/core/AccordionSummary';
-import AccordionDetails from '@material-ui/core/AccordionDetails';
+
 // import { getPostContent } from "../../../_actions/post_actions";
 
 const useStyles = makeStyles((theme) => ({
