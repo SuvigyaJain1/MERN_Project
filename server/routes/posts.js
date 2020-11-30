@@ -36,11 +36,6 @@ router.post("/createpost", auth, (req, res) => {
                     message: "Done",
                     post: obj
                 })
-                .catch((err) => {
-                  res.status(200).json({
-                    "err":err
-                  })
-                })
               })
             })
             .catch(err => {
