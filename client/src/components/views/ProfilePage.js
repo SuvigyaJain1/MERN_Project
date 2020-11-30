@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { makeStyles } from '@material-ui/core/styles';
 import axios from 'axios';
-import { useDispatch } from "react-redux";
 import Typography from '@material-ui/core/Typography';
 import Avatar from '@material-ui/core/Avatar';
 import img from './img.png';
@@ -20,9 +19,9 @@ const useStyles = makeStyles({
     color:'white',
     fontSize: '40px',
     'marginRight':'20px',
-    background: '#556270',  /* fallback for old browsers */
+    // background: '#556270',  /* fallback for old browsers */
     background: '-webkit-linear-gradient(to right, #FF6B6B, #556270)',  /* Chrome 10-25, Safari 5.1-6 */
-    background: 'linear-gradient(to right, #FF6B6B, #556270)', /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    // background: 'linear-gradient(to right, #FF6B6B, #556270)', /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 
   },
   posts:{},
@@ -33,6 +32,8 @@ const useStyles = makeStyles({
     zIndex:'2',
     height:'140px',
     width:'140px',
+    padding:'0px',
+    borderRadius:'70px'
   },
   cover:{
     background: '#485563',  /* fallback for old browsers */
@@ -56,7 +57,6 @@ const useStyles = makeStyles({
 
 export default function ProfilePage(props) {
   const classes = useStyles();
-  const dispatch = useDispatch();
   const [state, setState] = useState({
     posts:[
       {
@@ -80,7 +80,7 @@ export default function ProfilePage(props) {
   return (
     <div className={classes.container}>
 
-      <Avatar className={classes.pfp} alt="Profile Image here" src={"url(" + img + ")"}/>
+      <Avatar className={classes.pfp} alt="Profile Image here" src={img}/>
 
       <div className={classes.cover}></div>
 
