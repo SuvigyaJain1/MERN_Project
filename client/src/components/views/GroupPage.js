@@ -56,7 +56,7 @@ export default function GroupPage() {
 
       <Typography variant='overline' color="primary" className={classes.elemt} style={{'fontSize':'70px'}}> EXPLORE
       </Typography>
-
+      
       <TextField
         style={{
           'display':'block',
@@ -82,7 +82,7 @@ export default function GroupPage() {
       </Typography>
 
       {succ ?'':<Typography className={classes.elemt}>
-        <h3>User not found</h3>
+        User not found
       </Typography>}
 
     </Card>

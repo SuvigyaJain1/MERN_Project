@@ -50,27 +50,55 @@ router.post("/createpost", auth, (req, res) => {
 // req should consist of the  group name for which the posts need to be fetched
 //
 router.post("/getposts", auth, (req, res) => {
-  Group.findOne({
-    'name':req.user.email + '-' + req.body.group,
+
+  const name = req.body.email || req.user.email;
+  var allPosts = []
+
+  User.findOne({
+    'email': name
   })
   .then(doc => {
+    let groups = [name+'-home'];
 
-    // console.log(doc); works
-  Post.find().where('_id').in(doc.posts).exec((err, records) => {
-    if (err) {
-      throw err;
-    }
-
-    res.status(200).json(records)
-
-  });
-
-  })
-  .catch(e=>{
-    res.status(400).json({
-      "err":e
+    // if no email provided then find all posts by user as well as follower. Else only find users posts
+    if(req.body.email === undefined){
+      User.find().where('_id').in(doc.followees).exec((err, records) => {
+        if (err) {
+          return res.status(400).json(err);
+        }
+        groups = groups.concat(records.map((x)=>{return (x.email+'-home')}))
+        Group.find().where('name').in(groups).exec((err, records) => {
+      if (err) {
+        return res.status(400).json(err);
+      }
+      for (record in records) {
+        allPosts = allPosts.concat(records[record].posts)
+      }
+      Post.find().where('_id').in(allPosts).exec((err, postrecs) => {
+        if (err) {
+          throw err;
+        }
+        res.status(200).send(postrecs)
+        });
+      })
     })
+  }
+  else{
+        Group.find().where('name').in(groups).exec((err, records) => {
+        if (err) {
+          return res.status(400).json(err);
+        }
+        for (record in records) {
+          allPosts = allPosts.concat(records[record].posts)
+        }
+        Post.find().where('_id').in(allPosts).exec((err, postrecs) => {
+          if (err) {
+            throw err;
+          }
+          res.status(200).send(postrecs)
+        });
+      })
+  }
   })
 })
-
 module.exports = router;

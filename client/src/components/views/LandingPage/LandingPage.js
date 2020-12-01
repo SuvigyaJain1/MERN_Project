@@ -63,7 +63,8 @@ function LandingPage(props) {
       const dataToSubmit = {group: 'home'}
       axios.post('/api/posts/getposts', dataToSubmit)
         .then( res => {
-        setState({...state, posts:res.data});
+        if(res.status === 200)
+          setState({...state, posts:res.data});
       })
       .catch(err => console.error(err.message))
     }, [])

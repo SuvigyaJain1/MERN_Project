@@ -95,25 +95,26 @@ router.get("/logout", auth, (req, res) => {
 
 
 router.post("/addfollower", auth, (req, res) => {
+  User.findOne({'email':req.body.follower_email}, (err, followee) => {
+    const id = followee._id;
+    if (err) return res.status(400).json({err:err.message})
     User.findById({ _id: req.user._id }, (err, doc) => {
-        if (err) return res.status(400).json({err:err.message})
-        User.find({'email':req.body.follower_email}, (err, follower) => {
+      if (err) return res.status(400).json({err:err.message})
+      doc.followees.push(id);
+      doc.save()
+      .then( (err) => {
 
-          if (err) return res.status(400).json({err:err.message})
-
-          const id = follower._id;
-          doc.followers.push(id);
-          doc.save()
-          .then( () => {
-              return res.status(200).json({
-                  success: req.body.follower_email
-              })
+        followee.followers.push(doc._id)
+        followee.save()
+        .then((err) => {
+          // if (err) return res.status(400).json(err);
+          return res.status(200).json({
+            success: req.body.follower_email
           })
         })
-
-
-
+      })
     })
+  })
 })
 
 router.post("/removefollower", (req, res) => {

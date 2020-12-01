@@ -18,13 +18,19 @@ const useStyles = makeStyles({
     height:'10%',
     color:'white',
     fontSize: '40px',
+    display:'block',
+    position:'fixed',
     'marginRight':'20px',
+    top:'30%',
+    marginBottom:'20px',
     // background: '#556270',  /* fallback for old browsers */
     background: '-webkit-linear-gradient(to right, #FF6B6B, #556270)',  /* Chrome 10-25, Safari 5.1-6 */
-    // background: 'linear-gradient(to right, #FF6B6B, #556270)', /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    background: 'linear-gradient(to right, #FF6B6B, #556270)', /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 
   },
-  posts:{},
+  posts:{
+    marginTop:'300px',
+  },
   pfp:{
     position:'fixed',
     top:'calc(30% - 145px)',
@@ -49,7 +55,6 @@ const useStyles = makeStyles({
   profile:{
     width:'100%',
     display:'block',
-    position: 'fixed',
     top: '30%',
     height:'70%',
   }
@@ -69,10 +74,11 @@ export default function ProfilePage(props) {
   });
 
   useEffect( () => {
-    const dataToSubmit = {group: 'home'}
+    const dataToSubmit = {group: 'home', email:null}
     axios.post('/api/posts/getposts', dataToSubmit)
       .then( res => {
-      setState({...state, posts:res.data});
+        if(res.status === 200)
+          setState({...state, posts:res.data});
     })
     .catch(err => console.error(err.message))
   }, [])
@@ -93,7 +99,8 @@ export default function ProfilePage(props) {
         </div>
 
         <div className={classes.posts}>
-          <Posts posts={ state.posts } />        </div>
+          <Posts  posts={ state.posts } />
+        </div>
       </div>
 
     </div>
