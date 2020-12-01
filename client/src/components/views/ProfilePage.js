@@ -15,7 +15,7 @@ const useStyles = makeStyles({
   },
   statBar: {
     width: '100%',
-    height: '10%',
+    minHeight: '8%',
     color: 'white',
     fontSize: '40px',
     display: 'block',
@@ -26,6 +26,7 @@ const useStyles = makeStyles({
     // background: '#556270',  /* fallback for old browsers */
     background: '-webkit-linear-gradient(to right, #FF6B6B, #556270)',  /* Chrome 10-25, Safari 5.1-6 */
     background: 'linear-gradient(to right, #FF6B6B, #556270)', /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    verticalAlign:'center'
 
   },
   posts: {
@@ -42,6 +43,7 @@ const useStyles = makeStyles({
     borderRadius: '70px'
   },
   cover: {
+    textAlign: 'center',
     background: '#485563',  /* fallback for old browsers */
     background: '-webkit-linear-gradient(to right, #29323c, #485563)',  /* Chrome 10-25, Safari 5.1-6 */
     background: 'linear-gradient(to right, #29323c, #485563)', /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
@@ -93,7 +95,7 @@ export default function ProfilePage(props) {
           console.log(res.data.followers)
           setFollowerCount(res.data.followers.length)
           setFollowingCount(res.data.followees.length)
-          setName(res.data.name + " " + res.data.lastName)
+          setName(res.data.name + " " + res.data.lastname)
         }
 
         console.log(res.data);
@@ -108,7 +110,9 @@ export default function ProfilePage(props) {
 
       <Avatar className={classes.pfp} alt="Profile Image here" src={img} />
 
-      <div className={classes.cover}></div>
+      <div className={classes.cover}>
+
+      </div>
 
       <div className={classes.profile}>
 
@@ -116,6 +120,15 @@ export default function ProfilePage(props) {
           <Typography variant="overline" style={{ display: 'inline', fontSize: '17px', margin: '0px 40px 0px 10px' }}>Followers: {followerCount}</Typography>
           <Typography variant="overline" style={{ display: 'inline', fontSize: '17px', margin: '0px 40px 0px 10px' }}>Following: {followingCount} </Typography>
           <Typography variant="overline" style={{ display: 'inline', fontSize: '17px', margin: '0px 40px 0px 10px' }}>Posts </Typography>
+
+          <Typography style={{
+            zIndex:'10',
+            display: 'inline',
+            color:'white',
+            float:'right',
+            marginRight:'20px',
+            fontSize:'25px',
+          }}variant='overline'>{username}</Typography>
         </div>
 
         <div className={classes.posts}>
