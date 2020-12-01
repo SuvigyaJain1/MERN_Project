@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Card from '@material-ui/core/Card';
+import axios from 'axios';
 
 const postStyle = {
   minWidth: "50%",
@@ -13,18 +14,26 @@ const postStyle = {
 }
 
 function PostCard(props) {
-    return (
-        <Link to={"/posts/" + props.post._id}>
-          <Card className="card" style={postStyle} >
-            <div class="card-body">
-              <h4 class="card-title">{props.post.caption}</h4>
-              <h5 class="card-author">{props.post.author}</h5>
-              <p class="card-text">{props.post.content}</p>
+  const [name, setName] = useState("");
+  useEffect(() => {
+    axios.get("/api/users/userdata/".concat(props.post.author)).then(res => {
+      setName(res.data.name + " " + res.data.lastname);
+    })
 
-            </div>
-            </Card >
-          </Link>
-    )
+  }, []);
+
+  return (
+    <Link to={"/posts/" + props.post._id}>
+      <Card className="card" style={postStyle} >
+        <div class="card-body">
+          <h4 class="card-title">{props.post.caption}</h4>
+          <h5 class="card-author">{name}</h5>
+          <p class="card-text">{props.post.content}</p>
+
+        </div>
+      </Card >
+    </Link>
+  )
 }
 
 export default PostCard;

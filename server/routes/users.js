@@ -40,19 +40,19 @@ router.post("/register", (req, res) => {
             if (err) return res.json({ success: false, err });
             user.groups.push(home._id)
             user.save()
-            .then(() => {
-                profile.save(err => {
-                    if (err) return res.json({ success: false, err });
-                    user.groups.push(profile._id)
-                    user.save()
-                    .then(() => {
-                        return res.status(200).json({
-                            success: true
-                        });
+                .then(() => {
+                    profile.save(err => {
+                        if (err) return res.json({ success: false, err });
+                        user.groups.push(profile._id)
+                        user.save()
+                            .then(() => {
+                                return res.status(200).json({
+                                    success: true
+                                });
+                            })
                     })
-                })
 
-            })
+                })
         })
 
     });
@@ -95,40 +95,40 @@ router.get("/logout", auth, (req, res) => {
 
 
 router.post("/addfollower", auth, (req, res) => {
-  User.findOne({'email':req.body.follower_email}, (err, followee) => {
-    const id = followee._id;
-    if (err) return res.status(400).json({err:err.message})
-    User.findById({ _id: req.user._id }, (err, doc) => {
-      if (err) return res.status(400).json({err:err.message})
-      doc.followees.push(id);
-      doc.save()
-      .then( (err) => {
+    User.findOne({ 'email': req.body.follower_email }, (err, followee) => {
+        const id = followee._id;
+        if (err) return res.status(400).json({ err: err.message })
+        User.findById({ _id: req.user._id }, (err, doc) => {
+            if (err) return res.status(400).json({ err: err.message })
+            doc.followees.push(id);
+            doc.save()
+                .then((err) => {
 
-        followee.followers.push(doc._id)
-        followee.save()
-        .then((err) => {
-          // if (err) return res.status(400).json(err);
-          return res.status(200).json({
-            success: req.body.follower_email
-          })
+                    followee.followers.push(doc._id)
+                    followee.save()
+                        .then((err) => {
+                            // if (err) return res.status(400).json(err);
+                            return res.status(200).json({
+                                success: req.body.follower_email
+                            })
+                        })
+                })
         })
-      })
     })
-  })
 })
 
 router.post("/removefollower", (req, res) => {
     User.findOne({ _id: req.user._id }, (err, doc) => {
 
-        if (err) return res.status(400).json({err:err.message})
+        if (err) return res.status(400).json({ err: err.message })
 
         doc.followers.pull(req.body.follower_id);
         doc.save()
-        .then( () => {
-            return res.status(200).json({
-                success: req.body.follower_email
+            .then(() => {
+                return res.status(200).json({
+                    success: req.body.follower_email
+                })
             })
-        })
 
 
     })
@@ -138,15 +138,15 @@ router.post("/removefollower", (req, res) => {
 router.post("/subscribe", (req, res) => {
     User.findOne({ email: req.body.email }, (err, doc) => {
 
-        if (err) return res.status(400).json({err:err.message})
+        if (err) return res.status(400).json({ err: err.message })
 
         doc.groups.push(req.body.group_id);
         doc.save()
-        .then( () => {
-            return res.status(200).json({
-                success: req.body.group_id
+            .then(() => {
+                return res.status(200).json({
+                    success: req.body.group_id
+                })
             })
-        })
 
     })
 })
@@ -154,16 +154,50 @@ router.post("/subscribe", (req, res) => {
 router.post("/unsubscribe", (req, res) => {
     User.findOne({ email: req.body.email }, (err, doc) => {
 
-        if (err) return res.status(400).json({err:err.message})
+        if (err) return res.status(400).json({ err: err.message })
 
         doc.groups.pull(req.body.group_id);
         doc.save()
-        .then( () => {
-            return res.status(200).json({
-                success: req.body.group_id
+            .then(() => {
+                return res.status(200).json({
+                    success: req.body.group_id
+                })
             })
-        })
 
     })
 })
+
+
+
+
+
+router.post("/userdata", auth, (req, res) => {
+    const userEmail = req.body.email;
+
+    if (userEmail === null) {
+        return res.json(req.user);
+    }
+    console.log(req.body)
+    User.findOne({ email: userEmail }, (err, doc) => {
+        if (err) {
+            console.log(err);
+            return res.json({ err: err.message });
+        }
+        res.json(doc);
+    })
+});
+
+
+
+router.get("/userdata/:id", auth, (req, res) => {
+    const id = req.params.id
+    console.log(id);
+    User.findById(id, (err, doc) => {
+        if (err) {
+            console.log(err);
+            return res.json({ err: err.message });
+        }
+        res.json(doc);
+    })
+});
 module.exports = router;
