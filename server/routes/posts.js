@@ -24,7 +24,7 @@ router.post("/createpost", auth, (req, res) => {
   });
   newPost.save((err, obj) => {
     if (err) {
-      console.log(err);
+      res.status(400).json({'err':err.message});
     } else {
       Group.findOne({
         name: req.user.email + '-home'

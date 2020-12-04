@@ -177,10 +177,8 @@ router.post("/userdata", auth, (req, res) => {
     if (userEmail === null) {
         return res.json(req.user);
     }
-    console.log(req.body)
     User.findOne({ email: userEmail }, (err, doc) => {
         if (err) {
-            console.log(err);
             return res.json({ err: err.message });
         }
         res.json(doc);
@@ -191,10 +189,8 @@ router.post("/userdata", auth, (req, res) => {
 
 router.get("/userdata/:id", auth, (req, res) => {
     const id = req.params.id
-    console.log(id);
     User.findById(id, (err, doc) => {
         if (err) {
-            console.log(err);
             return res.json({ err: err.message });
         }
         res.json(doc);
