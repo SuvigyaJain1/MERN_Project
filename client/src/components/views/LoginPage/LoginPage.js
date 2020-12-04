@@ -95,10 +95,14 @@ function LoginPage(props) {
                 props.history.push("/home");
               } else {
                 setFormErrorMessage('Check out your Account or Password again')
+                alert('Check your Account or Password again')
+                console.log('Check your Account or Password again')
               }
             })
             .catch(err => {
               setFormErrorMessage('Check out your Account or Password again')
+              alert('Check your Account or Password again')
+              console.log('Check your Account or Password again')
               setTimeout(() => {
                 setFormErrorMessage("")
               }, 3000);

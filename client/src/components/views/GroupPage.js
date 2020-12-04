@@ -56,7 +56,7 @@ export default function GroupPage() {
 
       <Typography variant='overline' color="primary" className={classes.elemt} style={{'fontSize':'70px'}}> EXPLORE
       </Typography>
-      
+
       <TextField
         style={{
           'display':'block',
@@ -69,7 +69,7 @@ export default function GroupPage() {
           setSearch(e.target.value);
         }} />
 
-      <Button variant='outlined' color='primary'
+      <Button variant='contained' color='primary'
         style={{
 
         }}

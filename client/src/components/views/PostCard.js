@@ -23,16 +23,15 @@ function PostCard(props) {
   }, []);
 
   return (
-    <Link to={"/posts/" + props.post._id}>
+
       <Card className="card" style={postStyle} >
         <div class="card-body">
           <h4 class="card-title">{props.post.caption}</h4>
           <h5 class="card-author">{name}</h5>
           <p class="card-text">{props.post.content}</p>
-
+          
         </div>
-      </Card >
-    </Link>
+        </Card >
   )
 }
 
