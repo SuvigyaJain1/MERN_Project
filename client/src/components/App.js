@@ -7,7 +7,6 @@ import LoginPage from "./views/LoginPage/LoginPage.js";
 import RegisterPage from "./views/RegisterPage/RegisterPage.js";
 import NavBar from "./views/NavBar/NavBar";
 import Navigator from './views/Navigator';
-import PostPage from './views/PostPage';
 import ProfilePage from './views/ProfilePage';
 import GroupPage from './views/GroupPage';
 
