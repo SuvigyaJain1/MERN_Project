@@ -1,8 +1,12 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import PostCard from './PostCard';
+import axios from 'axios';
 
 export default function Posts(props){
-  const posts = (props.posts === null || props.posts === undefined)?[]:props.posts.map((post) => {return <PostCard post={post} />})
+
+  const [name, setName] = useState("");
+
+  const posts = (!props || !props.posts || ! Array.isArray(props.posts))?[]:props.posts.map((post) => {return <PostCard post={post} author={{"name":name}} />})
   return(
       <div style={{'margin':'20px'}}>
         { posts.length !== 0 ? posts : <h1 style={{

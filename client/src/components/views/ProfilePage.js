@@ -88,7 +88,7 @@ export default function ProfilePage(props) {
       .catch(err => console.error(err.message))
 
     dataToSubmit = { email: props.email ? props.email : null }
-    axios.post('/api/users/userdata', dataToSubmit)
+    axios.post('/api/users/userdataemail', dataToSubmit)
       .then(res => {
         if (res.status === 200) {
 

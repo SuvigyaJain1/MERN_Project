@@ -49,6 +49,7 @@ router.post("/createpost", auth, (req, res) => {
 
 // =====================================
 // req should consist of the  group name for which the posts need to be fetched
+// or the author email
 //
 router.post("/getposts", auth, (req, res) => {
 

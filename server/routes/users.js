@@ -171,7 +171,7 @@ router.post("/unsubscribe", (req, res) => {
 
 
 
-router.post("/userdata", auth, (req, res) => {
+router.post("/userdataemail", auth, (req, res) => {
     const userEmail = req.body.email;
 
     if (userEmail === null) {

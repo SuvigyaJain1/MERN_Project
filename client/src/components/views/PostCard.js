@@ -14,13 +14,15 @@ const postStyle = {
 }
 
 function PostCard(props) {
-  const [name, setName] = useState("");
+  const [name, setName] = useState("loading");
   useEffect(() => {
-    axios.get("/api/users/userdata/".concat(props.post.author)).then(res => {
+    axios.get("/api/users/userdata/".concat(props.post.author))
+    .then(res => {
+      console.log("Function called: "+res.data.name);
       setName(res.data.name + " " + res.data.lastname);
     })
 
-  }, []);
+  }, [props]);
 
   return (
 
@@ -29,7 +31,7 @@ function PostCard(props) {
           <h4 class="card-title">{props.post.caption}</h4>
           <h5 class="card-author">{name}</h5>
           <p class="card-text">{props.post.content}</p>
-          
+
         </div>
         </Card >
   )
